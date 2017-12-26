@@ -34,10 +34,18 @@
  * 두번째 시도
 	+ [DeepLearning Dataset](http://deeplearning.net/datasets/)에서 Caltec Image를 다운받음. Category101, Category256이 있음.
 	+ Caltech256 image: category가 256개(256_ObjectCategories.tar-1.15G(압축 풀면, 257개 category}). image들의 size는 동일하지 않고 다양함(eg. 499 x 278, 200 x 150, 1024 x 470, ...). 전체 image 개수는 30,608개.
-	+ Caltech101 image: category가 101개(128M. 이것도 실제 102개 category). category별 image 개수 차이가 많이 난다(eg. car-side는 모두 흑백 이미지. motorbikes는 798개). 전체 image 개수는 9,145개. int형의 npz 파일로 저장하면 1.12G(흑백 이미지를 제외하면 8,733개)
-	+ Deep Learning을 수행하기 위해서는 category당 1,000여개의 이미지가 있어야 하는데, category당 $80\sim90$개는 너무 적다.
-	+ category별로 보면, 40개 category는 50장 이하, 49개 category는 $50\sim100$장, 그 외 category는 100장, 200장, 400장, 800장 등. 
+	+ Caltech101 image: category가 101개(128M. 이것도 실제 102개 category). category별 image 개수 차이가 많이 남(eg. car-side는 모두 흑백 이미지. motorbikes는 798개). 전체 image 개수는 9,145개. int형의 npz 파일로 저장하면 1.12G(흑백 이미지를 제외하면 8,733개)
+	+ Deep Learning을 수행하기 위해서는 category당 1,000여개의 이미지가 있어야 하는데, category당 80~90개는 너무 적다.
+	+ category별로 보면, 40개 category는 50장 이하, 49개 category는 50~100장, 그 외 category는 100장, 200장, 400장, 800장 등. 
 	+ category별 이미지 개수의 편차가 심해, VGG training data로 사용하기에는 부족함.
+	
+ * 세번째 시도
+	+ [Vgg Dataset](http://www.robots.ox.ac.uk/~vgg/data/)에서도 여러가지 data를 구할 수 있다.
+	+ Pet Dataset: 25 category의 개 사진과 12 category의 고양이 사진이 7,390장 있다. category별로 200개 정도로 균일하다. 
+	+ 'Egyptian)_Mau_129.jpg', 'staffordshire_bull_terrier_2.jpg', 'staffordshire_bull_terrier_22.jpg' 3개의 이미지는 흑백이라 제외. 남은 data는 총 7,387개.
+	+ 위에서 마찬가지로 많은 이미지 파일을 단일 loop로 읽어 들이면, 점점 느려지기 때문에, category 1개 씩 batch로 처리하여 37개의 npz파일을 먼저 생성.
+	+ 37개 npz파일을 Memory에 load하고 이미지 순서를 shuffle한 후, 10개의 npz파일로 나누어 저장함. 
+	+ 일단, 이렇게 구한 Pet Data로 VGG16 모델을 돌려보기로 하자.
 
 
 
