@@ -11,7 +11,7 @@
 ### VGG 모델
  * [VGG16](https://github.com/machrisaa/tensorflow-vgg)을 다운받아, 필요한 곳을 수정함.
  * VGG모델은 1000개의 [ImageNet](http://www.image-net.org/) 1,000개의 category를 분류하는 학습된 weight가 공개되어 있다.
- * [training된 weight]( https://mega.nz/#!YU1FWJrA!O1ywiCS2IiOlUCtCpI6HTJOMrneN-Qdv3ywQP5poecM)를 다운받을 수 있다.
+ * [training된 weight(vgg16.npy)]( https://mega.nz/#!YU1FWJrA!O1ywiCS2IiOlUCtCpI6HTJOMrneN-Qdv3ywQP5poecM)를 다운받을 수 있다.
 
 
 ### 새로운 data 확보 과정
@@ -49,6 +49,19 @@
 
 ![VGG](./vgg16.png)	
 ### VGG 모델 설명
- * VGG모델의 자세한 설명은 따로 정리한 [여기](https://drive.google.com/open?id=1jhQejNuZLCRvWQrWhwxaR1qO1CTp-gcn)에서 볼 수 있다.
+	* VGG모델의 자세한 설명은 따로 정리한 [여기](https://drive.google.com/open?id=1jhQejNuZLCRvWQrWhwxaR1qO1CTp-gcn)에서 볼 수 있다.
 
 
+### Traing 준비
+ * category별로 200개 정도의 data밖에 없기 때문에, train data, validation data, test data로 나누지 않고, 모두 train data로 사용.
+ * test는 training이 끝나면, 인터넷에서 몇 개 다운받아서 해보기로 함.
+ * weight의 초기값을 random으로 주지 않고, 다운 받은 vgg16.npy에 있는 값으로 사용해보자. 이러한 방법을 고상하게 [transfer learning](http://cs231n.github.io/transfer-learning/)이라 한다.
+ * 기존에 학습된 VGG모델과 지금 training하려는 것의 결정적인 차이는 분류하고자 하는 카테고리의 개수가 다르다는데 있다.
+ * 그래서 마지막 fc8 layer는 training된 weight를 가져오지 않고, random으로 초기화함.
+ * 기존 VGG16구현은 category가 1,000개로 고정되어 있어서, 이 부분도 일부 수정함.
+ * mini batch size를 얼마로 할까 고민하다, 1,000를 분류할 때, 256개를 mini batch size로 했다는 것을 [보고](http://cs231n.github.io/optimization-1/), 37개 category 이므로, 
+ mini batch size = 10으로 결정함.
+
+### Traing
+ * cpu only pc
+ * gpu pc
