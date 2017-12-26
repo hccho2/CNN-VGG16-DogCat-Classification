@@ -48,6 +48,6 @@
 	+ 일단, 이렇게 구한 Pet Data로 VGG16 모델을 돌려보기로 하자.
 
 ### VGG 모델 설명
-![VGG](./test_data/Pet_test_Bombay.jpg)
+![VGG](./vgg16.png.jpg)
 
 
