@@ -70,7 +70,7 @@
 
 
 ### Training 소요 시간
- * cpu only pc: Iteration 1,200번 - 50시간 소요
+ * cpu only pc: Iteration 12,000번 - 50시간 소요
  * gpu pc: Iteration 100,000번 - 11.23시간 소요
  * 두 pc 모두 cost값은 잘 감소한 것으로 보여짐.
  * train data 전체에 대한 accuracy를 계산하지 못하고, 일단 10개만 sample해서 뽑아 보았을 때는 1.0이 나옴.
