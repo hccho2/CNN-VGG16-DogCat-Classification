@@ -4,7 +4,7 @@
  * Windows 환경에서 VGG16모델 적용.
  * Data 수집, traing과정, 결과 설명.
  * Tensorflow로 구현.
- * 개25종 + 고양이12종 = 37 calss를 분류.
+ * 개25종 + 고양이12종 = 37 class를 분류.
 
 
 
