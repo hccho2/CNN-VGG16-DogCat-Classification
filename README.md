@@ -43,7 +43,7 @@
 	+ [VGG Dataset](http://www.robots.ox.ac.uk/~vgg/data/)에서도 여러가지 data를 구할 수 있다.
 	+ Pet Dataset: 25 category의 개 사진과 12 category의 고양이 사진이 7,390장 있다. category별로 200개 정도로 균일하다. 
 	+ 'Egyptian_Mau_129.jpg', 'staffordshire_bull_terrier_2.jpg', 'staffordshire_bull_terrier_22.jpg' 3개의 이미지는 흑백이라 제외. 남은 data는 총 7,387개.
-	+ 위에서와 마찬가지로 많은 이미지 파일을 단일 loop로 읽어 들이면, 점점 느려지기 때문에, category 1개 씩 batch로 처리하여 37개의 npz파일을 먼저 생성.
+	+ 위에서와 마찬가지로 많은 이미지 파일을 단일 loop로 읽어 들이면, 점점 느려지기 때문에, category 1개씩 batch로 처리하여 37개의 npz파일을 먼저 생성.
 	+ 37개 npz파일을 Memory에 load하고 이미지 순서를 shuffle한 후, 10개의 npz파일로 나누어 저장함. 
 	+ category별 data가 200개 밖에 없지만, 일단, 이렇게 구한 Pet Data로 VGG16 모델을 돌려보기로 하자.
 
@@ -52,7 +52,7 @@
  * VGG모델의 자세한 설명은 따로 정리한 [여기](https://drive.google.com/open?id=1jhQejNuZLCRvWQrWhwxaR1qO1CTp-gcn)에서 볼 수 있다.
 
 
-### Traing 준비
+### Training 준비
  * category별로 200개 정도의 data밖에 없기 때문에, train data, validation data, test data로 나누지 않고, 모두 train data로 사용.
  * test는 training이 끝나면, 인터넷에서 몇 개 다운받아서 해보기로 함.
  * weight의 초기값을 random으로 주지 않고, 다운 받은 vgg16.npy에 있는 값으로 사용해보자. 이러한 방법을 고상하게 [transfer learning](http://cs231n.github.io/transfer-learning/)이라 한다.
@@ -63,13 +63,13 @@
  mini batch size = 10으로 결정함.
  * 10개로 나누어진 npz파일을 돌아가면 load하여 training하려다가, 그냥 모든 data가 있는 1개의 파일을 load하여 train하기로 함.
 
-### Traing Machine
+### Training Machine
  * 동일한 모델을 cpu만 있는 pc와 gpu가 있는 pc에 각각 돌려보기로 함.
  * cpu only pc: Intel i7-2600(3.4GHz), Memory 8G
  * gpu pc: Xeon I3-1225 V3(3.2GHz), Memory 16G, GPU-GTX970
 
 
-### Traing 소요 시간
+### Training 소요 시간
  * cpu only pc: Iteration 1,200번 - 50시간 소요
  * gpu pc: Iteration 100,000번 - 11.23시간 소요
  * 두 pc 모두 cost값은 잘 감소한 것으로 보여짐.
