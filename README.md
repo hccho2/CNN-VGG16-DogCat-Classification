@@ -62,6 +62,32 @@
  * mini batch size를 얼마로 할까 고민하다, 1,000를 분류할 때, 256개를 mini batch size로 했다는 것을 [보고](http://cs231n.github.io/optimization-1/), 37개 category 이므로, 
  mini batch size = 10으로 결정함.
 
-### Traing
- * cpu only pc
- * gpu pc
+### Traing Machine
+ * 동일한 모델을 cpu만 있는 pc와 gpu가 있는 pc에 각각 돌려보기로 함.
+ * cpu only pc: Intel i7-2600(3.4GHz), Memory 8G
+ * gpu pc: Xeon I3-1225 V3(3.2GHz), Memory 16G, GPU-GTX970
+
+
+### Traing 소요 시간
+ * cpu only pc: Iteration 1,200번 - 50시간 소요
+ * gpu pc: Iteration 100,000번 - 11.23시간 소요
+ * 두 pc 모두 cost값은 잘 감소한 것으로 보여짐.
+ * train data 전체에 대한 accuracy를 계산하지 못하고, 일단 10개만 sample해서 뽑아 보았을 때는 1.0이 나옴.
+ * iteration 별 cost값을 저장했어야 하는데, 저장하지 못해 시간 날 때, 다시 돌여야...
+
+### Test결과
+ * test_data 디렉토리에 있는 5개 파일을 인터넷에서 다운.
+	``` js
+	0 correct: Bombay, predict: Bombay ==> True
+	1 correct: keeshond, predict: keeshond ==> True
+	2 correct: Ragdoll, predict: Ragdoll ==> True
+	3 correct: scottish_terrier, predict: scottish_terrier ==> True
+	4 correct: english_setter, predict: english_setter ==> True	
+	```
+ * 일단, 5개의 test data로 평가했을 때는, 결과가 나쁘지 않음.
+ * 추후, 더 많은 test data를 확보하여 테스트해야 함.
+ 
+### 코드 실행
+ * hccho_VGG_Pet.py ==> train_from_pretrained(): training 과정 구현, weight 값을 npy에 저장함.
+ * hccho_VGG_Pet.py ==> predict_from_pretrained(): 저장된 npy파일로 부터 weight 값을 읽어, prediction 수행.
+ 
