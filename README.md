@@ -27,11 +27,9 @@
 	+ 이렇게 작업한 후, VGG모델은 244x224$ 크기의 이미지를 사용하는 모델임을 다시 알게됨. 다운 받은 64x64를 resize해서 더 크게 만들어야 함.
 	``` js
 			resized_img = skimage.transform(img,(224,224),preserve_range = True) 
+	```
 	+ preserve_range = False 이면, 0~1값으로 바뀜. True로 옵션을 주면, 정수 형태지만 type은 np.float. 실행 속도도 느림.
-	+ 어째든 해상도가 낮아, VGG모델을 수정하여 저해상도에 맞게 적용하면 되겠지만, VGG를 바로 적용해 보고 싶어서 다른 Dataset을 찾아보기로 함. 
-
-
-
+	+ 어째든 해상도가 낮아, VGG모델을 수정하여 저해상도에 맞게 적용하면 되겠지만, VGG를 바로 적용해 보고 싶어서 다른 Dataset을 찾아보기로 함.
 
 
 
