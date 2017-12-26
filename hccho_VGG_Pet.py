@@ -238,7 +238,7 @@ def predict_from_pretrained():
             print(prob)
             prob_argmax = np.argmax(prob,axis=1)
             for i in range(test_batch.shape[0]):
-                print(i, "correct: ", category[lable[i]], ", prdict: ", category_kor[prob_argmax[i]], lable[i]==prob_argmax[i] )
+                print(i, "correct: ", category[lable[i]], ", predict: ", category_kor[prob_argmax[i]], lable[i]==prob_argmax[i] )
     
   
     
