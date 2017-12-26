@@ -49,6 +49,6 @@
 
 ![VGG](./vgg16.png)	
 ### VGG 모델 설명
-	+ VGG모델의 자세한 설명은 따로 정리한 [여기](https://drive.google.com/open?id=1jhQejNuZLCRvWQrWhwxaR1qO1CTp-gcn)에서 볼 수 있다.
+ * VGG모델의 자세한 설명은 따로 정리한 [여기](https://drive.google.com/open?id=1jhQejNuZLCRvWQrWhwxaR1qO1CTp-gcn)에서 볼 수 있다.
 
 
