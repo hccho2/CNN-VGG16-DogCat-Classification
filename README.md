@@ -87,6 +87,7 @@
 	```
  * 일단, 5개의 test data로 평가했을 때는, 결과가 나쁘지 않음.
  * 추후, 더 많은 test data를 확보하여 테스트해야 함.
+ * train data(또는 test data)에 대한 accuracy를 계산할 때, batch size가 70만 되어도 Memory 부족 에러 발생한. 잘게 나누어 계산해야 함.
  
 ### 코드 실행
  * hccho_VGG_Pet.py ==> train_from_pretrained(): training 과정 구현, weight 값을 npy에 저장함.
