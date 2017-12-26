@@ -3,14 +3,14 @@
 
  * Windows 환경에서 VGG16모델 적용.
  * Data 수집, traing과정, 결과 설명.
- * Tensorflow로 활용
+ * Tensorflow로 구현.
  * 개25종 + 고양이12종 = 37 calss를 분류.
 
 
 
 ### VGG 모델
  * [VGG16](https://github.com/machrisaa/tensorflow-vgg)을 다운받아, 필요한 곳을 수정함.
- * VGG모델은 1000개의 [ImageNet](http://www.image-net.org/) 1,000개의 category를 분류하는 학습된 weight가 공개되어 있다.
+ * VGG모델은 [ImageNet](http://www.image-net.org/) 1,000개의 category의 object를 분류하는 모델로, 학습된 weight가 공개되어 있다.
  * [training된 weight(vgg16.npy)]( https://mega.nz/#!YU1FWJrA!O1ywiCS2IiOlUCtCpI6HTJOMrneN-Qdv3ywQP5poecM)를 다운받을 수 있다.
 
 
@@ -90,4 +90,6 @@
 ### 코드 실행
  * hccho_VGG_Pet.py ==> train_from_pretrained(): training 과정 구현, weight 값을 npy에 저장함.
  * hccho_VGG_Pet.py ==> predict_from_pretrained(): 저장된 npy파일로 부터 weight 값을 읽어, prediction 수행.
+ 
+ 
  
