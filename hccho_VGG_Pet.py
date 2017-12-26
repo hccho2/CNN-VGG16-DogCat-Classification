@@ -235,8 +235,10 @@ def predict_from_pretrained():
     
         ndata = min(60,test_batch.shape[0])
         
-        test_batch = test_batch[:ndata]
-        label = label[:ndata]
+        batch_mask = np.random.choice(test_batch.batch[0],ndata)
+        
+        test_batch = test_batch[batch_mask]
+        label = label[batch_mask]
     
     
     
