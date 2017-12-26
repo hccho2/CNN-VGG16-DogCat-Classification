@@ -47,7 +47,8 @@
 	+ 37개 npz파일을 Memory에 load하고 이미지 순서를 shuffle한 후, 10개의 npz파일로 나누어 저장함. 
 	+ 일단, 이렇게 구한 Pet Data로 VGG16 모델을 돌려보기로 하자.
 
+![VGG](./vgg16.png)	
 ### VGG 모델 설명
-![VGG](./vgg16.png)
+	+ VGG모델의 자세한 설명은 따로 정리한 [여기](https://drive.google.com/open?id=1jhQejNuZLCRvWQrWhwxaR1qO1CTp-gcn)에서 볼 수 있다.
 
 
