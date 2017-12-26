@@ -45,7 +45,7 @@
 	+ 'Egyptian)_Mau_129.jpg', 'staffordshire_bull_terrier_2.jpg', 'staffordshire_bull_terrier_22.jpg' 3개의 이미지는 흑백이라 제외. 남은 data는 총 7,387개.
 	+ 위에서 마찬가지로 많은 이미지 파일을 단일 loop로 읽어 들이면, 점점 느려지기 때문에, category 1개 씩 batch로 처리하여 37개의 npz파일을 먼저 생성.
 	+ 37개 npz파일을 Memory에 load하고 이미지 순서를 shuffle한 후, 10개의 npz파일로 나누어 저장함. 
-	+ 일단, 이렇게 구한 Pet Data로 VGG16 모델을 돌려보기로 하자.
+	+ category별 data가 200개 밖에 없지만, 일단 이렇게 구한 Pet Data로 VGG16 모델을 돌려보기로 하자.
 
 ![VGG](./vgg16.png)	
 ### VGG 모델 설명
