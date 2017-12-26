@@ -145,120 +145,127 @@ def train_from_pretrained():
     category =['Abyssinian', 'Bengal', 'Birman', 'Bombay', 'British_Shorthair', 'Egyptian_Mau', 'Maine_Coon', 'Persian', 'Ragdoll', 'Russian_Blue', 'Siamese', 'Sphynx', 'american_bulldog', 'american_pit_bull_terrier', 'basset_hound', 'beagle', 'boxer', 'chihuahua', 'english_cocker_spaniel', 'english_setter', 'german_shorthaired', 'great_pyrenees', 'havanese', 'japanese_chin', 'keeshond', 'leonberger', 'miniature_pinscher', 'newfoundland', 'pomeranian', 'pug', 'saint_bernard', 'samoyed', 'scottish_terrier', 'shiba_inu', 'staffordshire_bull_terrier', 'wheaten_terrier', 'yorkshire_terrier']
     category_kor = ['아비시니아 고양이', '벵갈 고양이', '버만 고양이', '봄베이 고양이', '브리티시 쇼트헤어 고양이', '이집션 마우 고양이', '메인쿤 고양이', '페르시안 고양이', '래그돌 고양이', '러시안 블루 고양이','시암 고양이', '스핑크스 고양이', '아메리칸 불독 개', '아메리칸 핏불 테리어 개', '바셋하운드 개', '비글 개', '복서 개', '치와와 개', '잉글리시 코커 스패니얼 개', '잉글리시 세터', '저먼 쇼트헤어드 포인터','그레이트 피레니즈', '하바나 개', '제페니스 친 개', '키스혼드 개', '레온베르거 개', '미니어처 핀셔 개', '뉴펀들랜드 개', '포메라니안 개', '퍼그 개', '세인트버나드 개', '사모예드 개', '스코티시 테리어 개', '시바이누 개', '스타포드셔 불 테리어 개', '휘튼 테리어 개', '요크셔 테리어 개']
     
-    data = np.load('.\\test_data\\VGG_Pet_int__All.npz')
+    data = np.load('.\\test_data\\VGG_Pet_int_All.npz')
 
     x_train = data['x_train']
     y_train = data['y_train']
-    ind = data['ind']
-    index_to_category = {int(c[0]):c[1] for i,c in enumerate(ind)}    
+
     
     y_train_one_hot = np.zeros((y_train.size, n_class),dtype=np.int)
     y_train_one_hot[np.arange(y_train.size),y_train] = 1
     
     
     batch_size =10
+    cost_all = []
+
+
+    sess = tf.Session()
+
+    images = tf.placeholder(tf.float32, [None, 224, 224, 3])
+    true_out = tf.placeholder(tf.float32, [None, n_class])
+    train_mode = tf.placeholder(tf.bool)
+
+    vgg = vgg16.Vgg16('./vgg16.npy',n_class = n_class)
+    vgg.build(images, train_mode,int_image=True)
+
+    # print number of variables used: 143667240 variables, i.e. ideal size = 548MB
+    print(vgg.get_var_count())
+
+    sess.run(tf.global_variables_initializer())
+
+
+
+    # simple 1-step training
+    cost = tf.reduce_sum((vgg.prob - true_out) ** 2)
+    train = tf.train.GradientDescentOptimizer(0.0001).minimize(cost)
+    for step in range(100000):
+        batch_mask = np.random.choice(x_train.shape[0],batch_size)
+        x_batch = x_train[batch_mask]
+        y_batch = y_train_one_hot[batch_mask]
+        _, c = sess.run([train,cost], feed_dict={images: x_batch, true_out: y_batch, train_mode: True})
+        if step % 1000 ==0:
+            cost_all.append([step,c])
+            print(step,c)
+        
+    np.savetxt("cost.txt",cost_all)
+    # test classification again, should have a higher probability about tiger
     
-    with tf.device('/cpu:0'):
-        sess = tf.Session()
+    # test accuracy 계산
+    n_sample =50
+    n = int(x_train.shape[0]/n_sample)
+    accuracy = 0
+    for i in range(n):
+        prob = sess.run(vgg.prob, feed_dict={images: x_train[i*50:(i+1)*50], train_mode: False})
+        prob = np.argmax(prob,axis=1)
+        y_batch = y_train[i*50:(i+1)*50]
+        accuracy += np.sum(prob == y_batch) / float(n_sample)
+    print("accuracy: ", accuracy/n)
     
-        images = tf.placeholder(tf.float32, [None, 224, 224, 3])
-        true_out = tf.placeholder(tf.float32, [None, n_class])
-        train_mode = tf.placeholder(tf.bool)
-    
-        vgg = vgg16.Vgg16('./vgg16.npy',n_class = n_class)
-        vgg.build(images, train_mode,int_image=True)
-    
-        # print number of variables used: 143667240 variables, i.e. ideal size = 548MB
-        print(vgg.get_var_count())
-    
-        sess.run(tf.global_variables_initializer())
     
 
     
-        # simple 1-step training
-        cost = tf.reduce_sum((vgg.prob - true_out) ** 2)
-        train = tf.train.GradientDescentOptimizer(0.0001).minimize(cost)
-        for step in range(200):
-            batch_mask = np.random.choice(x_train.shape[0],batch_size)
-            x_batch = x_train[batch_mask]
-            y_batch = y_train_one_hot[batch_mask]
-            _, c = sess.run([train,cost], feed_dict={images: x_batch, true_out: y_batch, train_mode: True})
-            print(step,c)
-    
-        # test classification again, should have a higher probability about tiger
-        prob = sess.run(vgg.prob, feed_dict={images: x_batch, train_mode: False})
-        prob = np.argmax(prob,axis=1)
-        y_batch = np.argmax(y_batch,axis=1)
-        accuracy = np.sum(prob == y_batch) / float(x_batch.shape[0])
-        print("accuracy: ", accuracy)
-        
-        
-        print("correct: ", category_kor[y_batch[0]])
-        print("predict: ", category_kor[prob[0]])
-        
-        plt.figure()
-        plt.title(category[y_batch[0]])
-        plt.imshow(x_batch[0]/255.0)
-        plt.show()
-        plt.close()        
-        #utils.print_prob(prob[0], './synset.txt')
-    
-        # test save
-        #vgg.save_npy(sess, './vgg16_Pet_Trained_Weight_GPU.npy')    
+    #plt.figure()
+    #plt.title(category[y_batch[0]])
+    #plt.imshow(x_batch[0]/255.0)
+    #plt.show()
+    #plt.close()        
+    #utils.print_prob(prob[0], './synset.txt')
+
+    # test save
+    vgg.save_npy(sess, './test-save.npy')    
         
 def predict_from_pretrained():
     n_class = 37
     category =['Abyssinian', 'Bengal', 'Birman', 'Bombay', 'British_Shorthair', 'Egyptian_Mau', 'Maine_Coon', 'Persian', 'Ragdoll', 'Russian_Blue', 'Siamese', 'Sphynx', 'american_bulldog', 'american_pit_bull_terrier', 'basset_hound', 'beagle', 'boxer', 'chihuahua', 'english_cocker_spaniel', 'english_setter', 'german_shorthaired', 'great_pyrenees', 'havanese', 'japanese_chin', 'keeshond', 'leonberger', 'miniature_pinscher', 'newfoundland', 'pomeranian', 'pug', 'saint_bernard', 'samoyed', 'scottish_terrier', 'shiba_inu', 'staffordshire_bull_terrier', 'wheaten_terrier', 'yorkshire_terrier']
     category_kor = ['아비시니아 고양이', '벵갈 고양이', '버만 고양이', '봄베이 고양이', '브리티시 쇼트헤어 고양이', '이집션 마우 고양이', '메인쿤 고양이', '페르시안 고양이', '래그돌 고양이', '러시안 블루 고양이','시암 고양이', '스핑크스 고양이', '아메리칸 불독 개', '아메리칸 핏불 테리어 개', '바셋하운드 개', '비글 개', '복서 개', '치와와 개', '잉글리시 코커 스패니얼 개', '잉글리시 세터', '저먼 쇼트헤어드 포인터','그레이트 피레니즈', '하바나 개', '제페니스 친 개', '키스혼드 개', '레온베르거 개', '미니어처 핀셔 개', '뉴펀들랜드 개', '포메라니안 개', '퍼그 개', '세인트버나드 개', '사모예드 개', '스코티시 테리어 개', '시바이누 개', '스타포드셔 불 테리어 개', '휘튼 테리어 개', '요크셔 테리어 개']
     
+    test_source = 2
     
-    test_source = 1
-    if test_source ==1:
+    if test_source == 1:
         filenames = ['./test_data/Pet_test_Bombay.jpg', './test_data/Pet_test_keeshond.jpg','./test_data/Pet_test_Ragdoll.jpg',
                      './test_data/Pet_test_scottish_terrier.jpg','./test_data/Pet_test_english_setter.jpg']
         label = [3,24,8,32,19]
+        
         test_batch=None
         for i in range(len(filenames)):
             img = utils.load_image(filenames[i],img_size=img_size,float_flag=False).reshape((1,img_size,img_size,3))
-            
             if test_batch is None:
                 test_batch = img
             else:
-                test_batch = np.concatenate((test_batch,img),0)        
+                test_batch = np.concatenate((test_batch,img),0)
+    elif test_source == 2:
         
+        data = np.load('.\\test_data\\VGG_Pet_int_All.npz')
         
-    elif test_source ==2:
-        data = np.load('.\\test_data\\VGG_Pet_int__All.npz')
-    
         test_batch = data['x_train']
         label = data['y_train']
-    
-        ndata = min(60,test_batch.shape[0])  # 70개 정도를 넘으면, Memory 부족
         
-        batch_mask = np.random.choice(test_batch.batch[0],ndata)
+        
+        ndata = min(50, test_batch.shape[0])
+        batch_mask = np.random.choice(test_batch.shape[0],ndata)
         
         test_batch = test_batch[batch_mask]
         label = label[batch_mask]
+        
+        
+        
     
     
     
-    with tf.device('/cpu:0'):
-        with tf.Session() as sess:
-            images = tf.placeholder(tf.float32, [None, 224, 224, 3])
-    
-            vgg = vgg16.Vgg16('./vgg16_Pet_Trained_Weight_GPU.npy',trainable =False, n_class = n_class)
-            with tf.name_scope("content_vgg"):
-                vgg.build(images,train_mode=False,int_image=True)
-    
-            prob = sess.run(vgg.prob, feed_dict== {images: test_batch})
-            print(prob)
-            prob_argmax = np.argmax(prob,axis=1)
-            for i in range(test_batch.shape[0]):
-                print(i, "correct: ", category[label[i]], ", predict: ", category_kor[prob_argmax[i]], label[i]==prob_argmax[i] )
-            
-            print("acc: ", np.sum(label==prob_argmax)/float(test_batch.shape[0]))
-    
-  
+    with tf.Session() as sess:
+        images = tf.placeholder(tf.float32, [None, 224, 224, 3])
+        train_mode = tf.placeholder(tf.bool)
+        vgg = vgg16.Vgg16('./vgg16_Pet_Trained_Weight_GPU.npy',trainable = False,n_class = n_class)
+        with tf.name_scope("content_vgg"):
+            vgg.build(images,train_mode,int_image=True)
+
+        prob = sess.run(vgg.prob, feed_dict = {train_mode: False, images: test_batch})
+        #print(prob)
+        prob_argmax = np.argmax(prob,axis=1)
+        for i in range(min(100,test_batch.shape[0])):
+            print(i, "correct: ", category[label[i]], "prdict: ", category_kor[prob_argmax[i]],label[i] ==prob_argmax[i] )
+
+        print("acc: ", np.sum(label==prob_argmax)/float(test_batch.shape[0]))
     
         
 if __name__ == "__main__":
@@ -269,8 +276,8 @@ if __name__ == "__main__":
     
     #test_npz();
     
-    #train_from_pretrained()
-    predict_from_pretrained()
+    train_from_pretrained()
+    #predict_from_pretrained()
     
     
     e=time.time()
