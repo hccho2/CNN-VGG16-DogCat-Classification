@@ -204,7 +204,7 @@ def train_from_pretrained():
         #utils.print_prob(prob[0], './synset.txt')
     
         # test save
-        #vgg.save_npy(sess, './test-save.npy')    
+        #vgg.save_npy(sess, './vgg16_Pet_Trained_Weight_GPU.npy')    
         
 def predict_from_pretrained():
     n_class = 37
