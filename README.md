@@ -61,6 +61,7 @@
  * 기존 VGG16구현은 category가 1,000개로 고정되어 있어서, 이 부분도 일부 수정함.
  * mini batch size를 얼마로 할까 고민하다, 1,000를 분류할 때, 256개를 mini batch size로 했다는 것을 [보고](http://cs231n.github.io/optimization-1/), 37개 category 이므로, 
  mini batch size = 10으로 결정함.
+ * 10개로 나누어진 npz파일을 돌아가면 load하여 training하려다가, 그냥 모든 data가 있는 1개의 파일을 load하여 train하기로 함.
 
 ### Traing Machine
  * 동일한 모델을 cpu만 있는 pc와 gpu가 있는 pc에 각각 돌려보기로 함.
