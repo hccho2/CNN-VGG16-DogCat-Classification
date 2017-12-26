@@ -233,7 +233,7 @@ def predict_from_pretrained():
         test_batch = data['x_train']
         label = data['y_train']
     
-        ndata = min(60,test_batch.shape[0])
+        ndata = min(60,test_batch.shape[0])  # 70개 정도를 넘으면, Memory 부족
         
         batch_mask = np.random.choice(test_batch.batch[0],ndata)
         
