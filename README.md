@@ -87,7 +87,7 @@
 	3 label: scottish_terrier .  predict: 스코티시 테리어 개 ( 1.0 )  ====>  correct!
 	4 label: english_setter .  predict: 잉글리시 세터 ( 1.0 )  ====>  correct!
 	5 label: Russian_Blue .  predict: 러시안 블루 고양이 ( 0.913969 )  ====>  correct!
-	6 label: Russian_Blue .  predict: 러시안 블루 고양이 ( 0.913969 )  ====>  correct!
+	6 label: Russian_Blue .  predict: 러시안 블루 고양이 ( 0.997391 )  ====>  correct!
 	7 label: Maine_Coon .  predict: 메인쿤 고양이 ( 1.0 )  ====>  correct!
 	8 label: great_pyrenees .  predict: 그레이트 피레니즈 ( 0.999217 )  ====>  correct!	
 	```
