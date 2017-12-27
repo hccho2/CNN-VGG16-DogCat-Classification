@@ -1,4 +1,4 @@
-# VGG16_DogCat_Classification
+# CNN-VGG16을 활용한 개/고양이 37종 분류(transfer learning)
 ### 개요:
 
  * Windows 환경에서 VGG16모델 적용.
