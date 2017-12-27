@@ -73,7 +73,7 @@
  * cpu only pc: Iteration 12,000번 - 50시간 소요
  * gpu pc: Iteration 100,000번 - 11.23시간 소요
  * 두 pc 모두 cost값은 잘 감소한 것으로 보여짐.
- * train data 전체에 대한 accuracy를 계산하지 못하고, 일단 10개만 sample해서 뽑아 보았을 때는 1.0이 나옴.(나중에 train 전체에 대한 accuracy를 계산해 보니 99.97%. 너무 높은 것 같음. training data가 적어 overfitting?)
+ * train data 전체에 대한 accuracy를 계산하지 못하고, 일단 10개만 sample해서 뽑아 보았을 때는 1.0이 나옴.(나중에 train data 전체에 대한 accuracy를 계산해 보니 99.97%. 너무 높은 것 같음. training data가 적어 overfitting?)
  * cost graph: mini batch에 대한 cost graph
 ![Cost](./cost.png)	
  
