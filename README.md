@@ -79,7 +79,7 @@
  
 
 ### Test결과
- * test_data 디렉토리에 있는 5개 파일을 인터넷에서 다운.
+ * test_data 디렉토리에 있는 9개 파일을 인터넷에서 다운.
 	``` js
 	0 label: Bombay .  predict: 봄베이 고양이 ( 1.0 )  ====>  correct!
 	1 label: keeshond .  predict: 키스혼드 개 ( 1.0 )  ====>  correct!
