@@ -81,13 +81,17 @@
 ### Test결과
  * test_data 디렉토리에 있는 5개 파일을 인터넷에서 다운.
 	``` js
-	0 correct: Bombay, predict: Bombay ==> True
-	1 correct: keeshond, predict: keeshond ==> True
-	2 correct: Ragdoll, predict: Ragdoll ==> True
-	3 correct: scottish_terrier, predict: scottish_terrier ==> True
-	4 correct: english_setter, predict: english_setter ==> True	
+	0 label: Bombay .  predict: 봄베이 고양이 ( 1.0 )  ====>  correct!
+	1 label: keeshond .  predict: 키스혼드 개 ( 1.0 )  ====>  correct!
+	2 label: Ragdoll .  predict: 래그돌 고양이 ( 0.999937 )  ====>  correct!
+	3 label: scottish_terrier .  predict: 스코티시 테리어 개 ( 1.0 )  ====>  correct!
+	4 label: english_setter .  predict: 잉글리시 세터 ( 1.0 )  ====>  correct!
+	5 label: Russian_Blue .  predict: 러시안 블루 고양이 ( 0.913969 )  ====>  correct!
+	6 label: Russian_Blue .  predict: 러시안 블루 고양이 ( 0.913969 )  ====>  correct!
+	7 label: Maine_Coon .  predict: 메인쿤 고양이 ( 1.0 )  ====>  correct!
+	8 label: great_pyrenees .  predict: 그레이트 피레니즈 ( 0.999217 )  ====>  correct!	
 	```
- * 일단, 5개의 test data로 평가했을 때는, 결과가 나쁘지 않음.
+ * 일단, 9개의 test data로 평가했을 때는, 결과가 나쁘지 않음.
  * 추후, 더 많은 test data를 확보하여 테스트해야 함.
  * train data(또는 test data)에 대한 accuracy를 계산할 때, batch size가 70만 되어도 Memory 부족 에러 발생함. 잘게 나누어 계산해야 함.
  
