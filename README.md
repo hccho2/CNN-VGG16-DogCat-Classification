@@ -74,7 +74,9 @@
  * gpu pc: Iteration 100,000번 - 11.23시간 소요
  * 두 pc 모두 cost값은 잘 감소한 것으로 보여짐.
  * train data 전체에 대한 accuracy를 계산하지 못하고, 일단 10개만 sample해서 뽑아 보았을 때는 1.0이 나옴.
- * iteration 별 cost값을 저장했어야 하는데, 저장하지 못해 시간 날 때, 다시 돌여야...
+ * cost graph: mini batch에 대한 cost graph
+![Cost](./cost.png)	
+ 
 
 ### Test결과
  * test_data 디렉토리에 있는 5개 파일을 인터넷에서 다운.
